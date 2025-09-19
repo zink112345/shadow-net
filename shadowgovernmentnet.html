@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadow Government Portal</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Orbitron', sans-serif;
+    background: linear-gradient(120deg, #0d0d0d, #1a1a1a);
+    color: #fff;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 30px;
+    background: rgba(0,0,0,0.85);
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(16,185,129,0.6);
+    border: 2px solid #10b981;
+    transition: 0.3s all;
+}
+
+h1 {
+    font-size: 56px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #10b981;
+    text-shadow: 0 0 15px #10b981, 0 0 30px #0ff;
+}
+
+h2.section-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #10b981;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 14px;
+    border-radius: 12px;
+    border: 1px solid rgba(16,185,129,0.5);
+    margin-bottom: 15px;
+    background: rgba(16,185,129,0.05);
+    color: #fff;
+    font-size: 16px;
+    box-shadow: inset 0 0 8px rgba(16,185,129,0.3);
+    transition: 0.2s all;
+}
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: #0ff;
+    box-shadow: 0 0 12px #0ff;
+}
+
+button {
+    padding: 14px 24px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    background: linear-gradient(90deg, #10b981, #0ff);
+    color: #000;
+    font-weight: bold;
+    margin: 6px 2px;
+    transition: 0.3s all;
+    box-shadow: 0 0 15px #10b981;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #0ff, #10b981);
+    box-shadow: 0 0 25px #0ff;
+}
+
+.card {
+    background: rgba(16,185,129,0.05);
+    border: 1px solid #10b981;
+    padding: 18px;
+    border-radius: 16px;
+    margin-bottom: 14px;
+    box-shadow: 0 0 15px rgba(16,185,129,0.5);
+    position: relative;
+    transition: 0.3s all;
+}
+
+.card:hover {
+    box-shadow: 0 0 25px #0ff;
+}
+
+.card button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: red;
+    color: #fff;
+    font-size: 12px;
+    padding: 6px 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 8px red;
+    transition: 0.2s;
+}
+
+.card button:hover {
+    box-shadow: 0 0 12px red;
+    transform: scale(1.05);
+}
+
+.tab-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.tab-buttons button {
+    margin: 5px;
+    min-width: 120px;
+    font-size: 16px;
+}
+
+.founder-box, .gov-box, .table-member-box {
+    padding: 14px 18px;
+    border-radius: 12px;
+    margin: 6px;
+    display: inline-block;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: 0 0 12px rgba(16,185,129,0.6);
+    transition: 0.3s;
+}
+
+.founder-box { background: gold; color: #000; }
+.founder-box:hover { box-shadow: 0 0 20px gold; }
+
+.gov-box { background: red; color: #fff; }
+.gov-box:hover { box-shadow: 0 0 20px red; }
+
+.table-member-box { background: purple; color: #fff; }
+.table-member-box:hover { box-shadow: 0 0 20px purple; }
+
+#logoutBtn {
+    display: block;
+    margin: 30px auto 0;
+    padding: 14px 28px;
+    background: linear-gradient(90deg, #ff0055, #ff55aa);
+    color: #fff;
+    font-weight: bold;
+    border-radius: 16px;
+    box-shadow: 0 0 20px #ff0055;
+    transition: 0.3s;
+}
+
+#logoutBtn:hover {
+    background: linear-gradient(90deg, #ff55aa, #ff0055);
+    box-shadow: 0 0 25px #ff55aa;
+}
+
+/* Music button */
+#musicBtn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 14px 20px;
+    border-radius: 12px;
+    border: none;
+    background: linear-gradient(90deg, #10b981, #0ff);
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 0 15px #10b981;
+    transition: 0.3s;
+}
+
+#musicBtn:hover {
+    background: linear-gradient(90deg, #0ff, #10b981);
+    box-shadow: 0 0 25px #0ff;
+}
+
+.hidden { display: none; }
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" loop src="https://dn721802.ca.archive.org/0/items/humans-and-monsters-16/Cold-Outside503.mp3"></audio>
+
+<div class="container" id="loginContainer">
+  <h1>Shadow Government</h1>
+  <div class="tab-buttons">
+    <button onclick="showTab('registerTab')">Register</button>
+    <button onclick="showTab('loginTab')">Login</button>
+    <button onclick="showTab('adminTab')">Admin Login</button>
+  </div>
+
+  <div id="registerTab">
+    <h2 class="section-title">Register</h2>
+    <input type="text" id="regUsername" placeholder="Username" />
+    <input type="password" id="regPassword" placeholder="Password" />
+    <button id="registerBtn">Register</button>
+    <p id="registerMsg"></p>
+  </div>
+
+  <div id="loginTab" class="hidden">
+    <h2 class="section-title">User Login</h2>
+    <input type="password" id="loginKey" placeholder="Enter your key" />
+    <button id="loginBtn">Login</button>
+    <p id="loginMsg"></p>
+  </div>
+
+  <div id="adminTab" class="hidden">
+    <h2 class="section-title">Admin Login</h2>
+    <input type="password" id="adminKeyInput" placeholder="Admin Key" />
+    <button id="adminLoginBtn">Login as Admin</button>
+    <p id="adminMsg"></p>
+  </div>
+</div>
+
+<div id="dashboard" class="container hidden">
+  <h1>Welcome, <span id="displayName"></span></h1>
+  <div class="tab-buttons">
+    <button onclick="showDashboardTab('homeTab')">Home</button>
+    <button onclick="showDashboardTab('foundersTab')">Founders & Government</button>
+  </div>
+
+  <div id="homeTab">
+    <h2 class="section-title">Admin Posts</h2>
+    <textarea id="adminPostText" rows="3" placeholder="Admins can post here..."></textarea>
+    <button id="adminPostBtn">Post</button>
+    <div id="adminFeed"></div>
+
+    <h2 class="section-title">Free Text & File Upload</h2>
+    <textarea id="freeTextInput" rows="3" placeholder="Everyone can post here..."></textarea>
+    <input type="file" id="freeFileInput" multiple />
+    <button id="freeTextBtn">Send</button>
+    <div id="freeTextMessages"></div>
+  </div>
+
+  <div id="foundersTab" class="hidden">
+    <h2 class="section-title">Founders</h2>
+    <div class="founder-box">121</div>
+    <div class="founder-box">122</div>
+    <div class="founder-box">123</div>
+    <h2 class="section-title">Government</h2>
+    <div class="gov-box">124</div>
+    <div class="gov-box">125</div>
+    <h2 class="section-title">Table Members</h2>
+    <div class="table-member-box">126</div>
+    <div class="table-member-box">127</div>
+    <div class="table-member-box">128</div>
+    <div class="table-member-box">129</div>
+  </div>
+
+  <button id="logoutBtn">Logout</button>
+</div>
+
+<button id="musicBtn">Pause Music</button>
+
+<script>
+// Music
+const bgMusic = document.getElementById('bgMusic');
+bgMusic.play().catch(()=>{});
+const musicBtn = document.getElementById('musicBtn');
+musicBtn.addEventListener('click', ()=>{
+    if(bgMusic.paused){
+        bgMusic.play();
+        musicBtn.textContent = 'Pause Music';
+    } else {
+        bgMusic.pause();
+        musicBtn.textContent = 'Play Music';
+    }
+});
+
+// System variables
+let currentUser = null;
+let isAdmin = false;
+let timeoutUsers = [];
+
+// Generate 3 random admin keys
+const ADMIN_KEYS = ['admin123456', 'shaddow1234', 'admin2267'];
+console.log(":", ADMIN_KEYS); // for testing
+
+function randomKey(len=10){
+    const chars='ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let k='';
+    for(let i=0;i<len;i++){ k+=chars.charAt(Math.floor(Math.random()*chars.length)); }
+    return k;
+}
+
+// UI helper
+function showTab(tabId){
+    ['registerTab','loginTab','adminTab'].forEach(t=>document.getElementById(t).classList.add('hidden'));
+    document.getElementById(tabId).classList.remove('hidden');
+}
+function showDashboardTab(tabId){
+    ['homeTab','foundersTab'].forEach(t=>document.getElementById(t).classList.add('hidden'));
+    document.getElementById(tabId).classList.remove('hidden');
+}
+
+// Local storage
+function saveUsers(u){localStorage.setItem('users', JSON.stringify(u));}
+function getUsers(){return JSON.parse(localStorage.getItem('users')||'[]');}
+function saveAdminPosts(p){localStorage.setItem('adminPosts', JSON.stringify(p));}
+function getAdminPosts(){return JSON.parse(localStorage.getItem('adminPosts')||'[]');}
+function saveFreePosts(p){localStorage.setItem('freePosts', JSON.stringify(p));}
+function getFreePosts(){return JSON.parse(localStorage.getItem('freePosts')||'[]');}
+
+// Registration
+document.getElementById('registerBtn').addEventListener('click', ()=>{
+    const username=document.getElementById('regUsername').value.trim();
+    const password=document.getElementById('regPassword').value.trim();
+    if(!username||!password){document.getElementById('registerMsg').textContent='Enter username and password'; return;}
+    let users=getUsers();
+    if(users.find(u=>u.username===username)){document.getElementById('registerMsg').textContent='Username taken'; return;}
+    const key=randomKey(10);
+    users.push({username,password,key,displayName:username});
+    saveUsers(users);
+    document.getElementById('registerMsg').textContent=`Account created! Key: ${key}`;
+});
+
+// Login
+document.getElementById('loginBtn').addEventListener('click', ()=>{
+    const key=document.getElementById('loginKey').value.trim();
+    const users=getUsers();
+    const user=users.find(u=>u.key===key);
+    if(user){
+        if(timeoutUsers.includes(user.username)){alert('You are timed out!'); return;}
+        currentUser=user; isAdmin=false;
+        document.getElementById('displayName').textContent=user.displayName;
+        document.getElementById('loginContainer').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        updateAdminFeed(); updateFreeFeed();
+    } else {
+        document.getElementById('loginMsg').textContent='Invalid key';
+    }
+});
+
+// Admin login
+document.getElementById('adminLoginBtn').addEventListener('click', ()=>{
+    const aKey=document.getElementById('adminKeyInput').value.trim();
+    if(ADMIN_KEYS.includes(aKey)){
+        currentUser={displayName:'Admin'};
+        isAdmin=true;
+        document.getElementById('displayName').textContent='Admin';
+        document.getElementById('loginContainer').classList.add('hidden');
+        document.getElementById('dashboard').classList.remove('hidden');
+        updateAdminFeed(); updateFreeFeed();
+    } else {
+        document.getElementById('adminMsg').textContent='Invalid admin key';
+    }
+});
+
+// Logout
+document.getElementById('logoutBtn').addEventListener('click', ()=>{
+    currentUser=null;
+    isAdmin=false;
+    document.getElementById('dashboard').classList.add('hidden');
+    document.getElementById('loginContainer').classList.remove('hidden');
+});
+
+// Admin posts
+document.getElementById('adminPostBtn').addEventListener('click', ()=>{
+    if(!isAdmin){alert('Only admins can post'); return;}
+    const text=document.getElementById('adminPostText').value.trim();
+    if(!text) return;
+    const posts=getAdminPosts();
+    posts.push({text,date:new Date().toLocaleString()});
+    saveAdminPosts(posts);
+    updateAdminFeed();
+    document.getElementById('adminPostText').value='';
+});
+
+function updateAdminFeed(){
+    const feed=document.getElementById('adminFeed');
+    feed.innerHTML='';
+    getAdminPosts().slice().reverse().forEach((p,i)=>{
+        const div=document.createElement('div');
+        div.className='card';
+        div.textContent=`${p.date}: ${p.text}`;
+        if(isAdmin){
+            const delBtn=document.createElement('button');
+            delBtn.textContent='Delete';
+            delBtn.onclick=()=>{let posts=getAdminPosts(); posts.splice(getAdminPosts().length-1-i,1); saveAdminPosts(posts); updateAdminFeed();}
+            div.appendChild(delBtn);
+        }
+        feed.appendChild(div);
+    });
+}
+
+// Free posts
+document.getElementById('freeTextBtn').addEventListener('click', ()=>{
+    const text=document.getElementById('freeTextInput').value.trim();
+    if(!text) return;
+    const posts=getFreePosts();
+    posts.push({user:currentUser.displayName,text,date:new Date().toLocaleString()});
+    saveFreePosts(posts);
+    updateFreeFeed();
+    document.getElementById('freeTextInput').value='';
+});
+
+function updateFreeFeed(){
+    const feed=document.getElementById('freeTextMessages');
+    feed.innerHTML='';
+    getFreePosts().slice().reverse().forEach((p,i)=>{
+        const div=document.createElement('div');
+        div.className='card';
+        div.textContent=`${p.date} (${p.user}): ${p.text}`;
+        if(isAdmin){
+            const delBtn=document.createElement('button');
+            delBtn.textContent='Delete';
+            delBtn.onclick=()=>{let posts=getFreePosts(); posts.splice(getFreePosts().length-1-i,1); saveFreePosts(posts); updateFreeFeed();}
+            div.appendChild(delBtn);
+        }
+        feed.appendChild(div);
+    });
+}
+</script>
+</body>
+</html>
